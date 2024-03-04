@@ -57,6 +57,7 @@ export async function handleSubmit(event) {
             });
             } else {
             renderImages(images);
+
         }
     } catch (error) {
         console.error(error.message);

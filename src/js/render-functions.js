@@ -18,25 +18,15 @@ export function renderImages(images) {
             cardLink.rel = "noopener noreferrer";
             cardLink.classList.add('card');
 
-            const img = document.createElement('img');
-            img.src = image.webformatURL;
-            img.alt = image.tags;
-
-            const metricsRow = document.createElement('div');
-            metricsRow.classList.add('metrics');
-
-            const likesContainer = createMetricContainer('Likes', image.likes);
-            const viewsContainer = createMetricContainer('Views', image.views);
-            const commentsContainer = createMetricContainer('Comments', image.comments);
-            const downloadsContainer = createMetricContainer('Downloads', image.downloads);
-
-            metricsRow.appendChild(likesContainer);
-            metricsRow.appendChild(viewsContainer);
-            metricsRow.appendChild(commentsContainer);
-            metricsRow.appendChild(downloadsContainer);
-
-            cardLink.appendChild(img);
-            cardLink.appendChild(metricsRow);
+            cardLink.innerHTML = `
+                <img src="${image.webformatURL}" alt="${image.tags}">
+                <div class="metrics">
+                    ${createMetricContainer('Likes', image.likes).outerHTML}
+                    ${createMetricContainer('Views', image.views).outerHTML}
+                    ${createMetricContainer('Comments', image.comments).outerHTML}
+                    ${createMetricContainer('Downloads', image.downloads).outerHTML}
+                </div>
+            `;
 
             gallery.appendChild(cardLink);
         });
@@ -80,4 +70,12 @@ export function hideLoadingIndicator() {
 export function clearGallery() {
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = '';
+}
+
+// Функція для оновлення галереї
+export function updateGallery() {
+    const gallery = new SimpleLightbox('.gallery a', {
+        captionDelay: 250
+    });
+    gallery.refresh();
 }
